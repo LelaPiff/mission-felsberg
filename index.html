@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission FELSBERG – Expeditionsakte</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#0f1418;--panel:#151d23;--paper:#d9c091;--paper-dark:#b49764;--ink:#2b2115;--gold:#d2a84f;--light:#eef4f6;--danger:#ffb3a9;--success:#e3ad45;--muted:#9eabb2}
+body{margin:0;min-height:100vh;font-family:Georgia,"Times New Roman",serif;background:radial-gradient(circle at top,#3a3022 0%,#17140f 62%);color:var(--light)}
+.app{width:min(100%,620px);margin:0 auto;padding:22px 18px 54px}
+.screen{display:none;min-height:calc(100vh - 76px);flex-direction:column;justify-content:center;animation:fade .32s ease}
+.screen.active{display:flex}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.roman-seal,.success-icon{width:92px;height:92px;margin:0 auto 22px;border:3px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:30px;font-weight:700;letter-spacing:2px}
+.success-icon{color:var(--success);border-color:var(--success);font-size:52px}
+.eyebrow{margin:0 0 8px;text-align:center;text-transform:uppercase;letter-spacing:3px;color:var(--gold);font-size:13px}
+h1{margin:0;text-align:center;font-size:clamp(30px,7vw,48px);line-height:1.05}
+h2{margin:12px 0 24px;text-align:center;font-size:19px;font-weight:400;color:var(--paper)}
+.progress-wrap{margin:0 auto 22px;width:100%}.progress-text{text-align:center;color:var(--paper);font-size:14px;margin-bottom:7px}
+.progress-bar{height:8px;background:#342b20;border-radius:999px;overflow:hidden;border:1px solid #57492f}.progress-fill{height:100%;background:linear-gradient(90deg,#a87527,#d1a453)}
+.scroll{margin:24px 0 20px;padding:25px 22px;color:var(--ink);background:linear-gradient(90deg,rgba(95,65,24,.15),transparent 10%,transparent 90%,rgba(95,65,24,.15)),var(--paper);border-top:7px solid var(--paper-dark);border-bottom:7px solid var(--paper-dark);box-shadow:0 14px 28px rgba(0,0,0,.25);font-size:17px;line-height:1.55}
+.riddle{margin-top:16px;font-weight:700}
+.coord-card{margin:22px 0;padding:20px;border:1px solid #8f7547;border-radius:10px;background:#2b2117;text-align:center}
+.coord-card h3{margin:0 0 10px;color:var(--gold);font-size:18px}
+.coordinates,.coord-puzzle{font-size:22px;line-height:1.6;color:var(--light);letter-spacing:1px}
+.coord-puzzle strong{color:var(--gold)}
+label{margin:6px 0 7px;font-size:16px;color:var(--paper)}
+input{width:100%;padding:15px 14px;margin-bottom:12px;border:1px solid #7f6a47;border-radius:8px;background:#f5eddd;color:#211a12;font-size:18px}
+button,.linkbutton{width:100%;padding:15px 18px;border-radius:8px;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:block}
+.primary{border:1px solid #e0bd74;background:linear-gradient(#d1a453,#a87527);color:#1a140c;box-shadow:0 6px 16px rgba(0,0,0,.2);margin-top:12px}
+.secondary{margin-top:12px;border:1px solid #736248;background:transparent;color:var(--paper)}
+.feedback,.hint,.small{text-align:center;margin:10px 0 0}.feedback.error{color:var(--danger)}.feedback.ok{color:var(--success)}.hidden{display:none}.small{color:var(--muted);font-size:14px}
+.dossier{margin:18px 0;padding:16px 18px;border:1px solid #5f4a32;border-radius:10px;background:rgba(35,27,19,.94)}
+.dossier-title{font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:12px;color:var(--paper);margin-bottom:9px}
+.system-line{font-family:"Courier New",monospace;color:var(--gold);font-size:14px;line-height:1.55;border-left:3px solid #8f6b35;padding-left:11px;margin:11px 0}
+.system-tag{display:inline-block;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;font-size:11px;padding:5px 8px;border:1px solid #6f5638;border-radius:4px;color:var(--paper);background:#2b2117;margin-bottom:10px}
+.archive-label{font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:2px;font-size:11px;color:#725a32;margin-bottom:10px}
+.roman-icon{width:118px;height:118px;display:block;margin:0 auto 22px;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+@media(max-width:420px){.app{padding-left:15px;padding-right:15px}.scroll{padding:20px 18px}.coord-puzzle{font-size:18px}}
+
+/* Einheitliche Abstände der Prüfungs-/Stationsköpfe */
+.progress-wrap{margin:12px 0 22px}
+.progress-wrap + .eyebrow{margin-top:0}
+
+
+.location-status{margin:10px 0 0;text-align:center;font-size:14px;line-height:1.45;color:var(--paper)}
+.location-status.error{color:var(--danger)}
+.location-status.ok{color:var(--success)}
+
+</style>
+</head>
+<body>
+<main class="app">
+
+<section id="start" class="screen active">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Digitale Expeditionsakte</p>
+<h1>MISSION FELSBERG</h1>
+<h2>Das Vermächtnis des Marcus Cassius Varro</h2>
+<div class="dossier">
+<div class="dossier-title">Archivfund · Felsberg · Akte MCV-364</div>
+<p>Bei Untersuchungen am Felsberg wurden Fragmente alter Aufzeichnungen entdeckt: Zeichen, Zahlen, verschlüsselte Botschaften und Hinweise auf verschiedene Orte im Felsenmeer.</p>
+<p>Die Funde wurden fotografiert, untersucht und in dieser <strong>digitalen Expeditionsakte</strong> zusammengetragen.</p>
+<div class="system-line">STATUS: 12 verschlüsselte Prüfungen erkannt<br>ZUGRIFF: schrittweise Freigabe</div>
+</div>
+<div class="scroll">
+<div class="archive-label">Historische Rekonstruktion · Jahr 364 n. Chr.</div>
+<p>Das Römische Reich hat seine größte Macht längst überschritten. Hoch oben am Felsberg liegen noch immer gewaltige Granitblöcke, an denen römische Steinmetze gearbeitet hatten.</p>
+<p>Die Steinmetze fertigten mächtige Säulen für Tempel und andere Bauwerke.</p>
+<p><strong>Doch eine dieser Säulen war anders.</strong></p>
+<p>In ihrem Inneren entdeckten sie einen ungewöhnlichen Stein. Der Legende nach verlieh er seinem Besitzer unendliche Stärke.</p>
+<p>Der Baumeister <strong>Marcus Cassius Varro</strong> erkannte die Macht des Steines – und die Gefahr, die von ihm ausgehen konnte.</p>
+<p>Also versteckte er ihn tief im Felsenmeer und hinterließ Hinweise.</p>
+<p><strong>Zwölf Prüfungen. Zwölf Spuren.</strong></p>
+</div>
+<button class="primary" onclick="showScreen('expedition')">Expeditionsakte öffnen</button>
+</section>
+
+<section id="expedition" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<span class="system-tag">Expeditionssystem aktiv</span>
+<p class="eyebrow">Eure Ausrüstung</p>
+<h1>Digitale Expeditionsakte</h1>
+<div class="dossier">
+<div class="dossier-title">So funktioniert die Mission</div>
+<p>Nach jeder bestandenen Prüfung wird ein neuer Teil von Varros Aufzeichnungen freigeschaltet.</p>
+<p>Darin findet ihr die Koordinaten eures nächsten Zieles – oder einen Hinweis, mit dem ihr diese erst selbst entschlüsseln müsst.</p>
+<div class="system-line">Das Smartphone ist nur euer Werkzeug.<br>Die Rätsel müsst ihr selbst lösen.</div>
+<p><strong>Haltet die Augen offen. Bleibt zusammen. Folgt den Spuren.</strong></p>
+</div>
+<button class="primary" onclick="showScreen('missionbrief')">Varros Nachricht laden</button>
+</section>
+
+<section id="missionbrief" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Archivdokument 01</p>
+<h1>Nachricht von Varro</h1>
+<div class="scroll">
+<div class="archive-label">Transkription eines aufgefundenen Dokuments</div>
+<p><strong>An die Finder dieser Botschaft,</strong></p>
+<p>wenn ihr diese Zeilen lest, ist meine Zeit längst vergangen.</p>
+<p>Mein Name ist <strong>Marcus Cassius Varro</strong>.</p>
+<p>Ich bewahrte ein Geheimnis, das niemals in die falschen Hände geraten durfte.</p>
+<p><strong>Einen Stein von außergewöhnlicher Macht.</strong></p>
+<p>Man sagt, er verleihe demjenigen, der ihn besitzt, unendliche Stärke.</p>
+<p>Deshalb versteckte ich ihn.</p>
+<p>Wer ihn eines Tages findet, soll beweisen, dass er Mut, Verstand und Zusammenhalt besitzt.</p>
+<p><strong>Zwölf Prüfungen führen zu meinem Geheimnis.</strong></p>
+<p>Löst meine Rätsel. Entschlüsselt meine Zeichen. Folgt den Koordinaten. Und vor allem: <strong>Bleibt zusammen.</strong></p>
+<p><em>Möge euer Verstand stärker sein als der Stein.</em></p>
+<p><strong>MARCUS CASSIUS VARRO</strong><br>Baumeister am Felsberg<br>Anno Domini CCCLXIV</p>
+</div>
+<button class="primary" onclick="showScreen('station1')">Erste Prüfung freischalten</button>
+</section>
+
+<section id="station1" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 1 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:8.3%"></div></div></div>
+<p class="eyebrow">Station I · Grieshammer Ruhe</p>
+<h1>Die Spuren der Steinmetze</h1>
+<div class="scroll">
+<div class="archive-label">Varros erste Prüfung</div>
+<p>Die Steinmetze mussten die gewaltigen Granitblöcke teilen.</p>
+<p>Mit Hammer und Meißel schlugen sie Vertiefungen in den Stein. In diese Vertiefungen wurden Keile eingesetzt, um den Fels Stück für Stück zu spalten.</p>
+<p class="riddle">Wie nennt man diese Vertiefungen?</p>
+</div>
+<label for="answer1">Eure Lösung:</label>
+<input id="answer1" autocomplete="off" placeholder="Lösung eingeben">
+<button class="primary" onclick="checkKeillochWord()">Lösung prüfen</button>
+<p id="feedback1" class="feedback"></p>
+<button class="secondary" onclick="showHint('hint1')">Hinweis anzeigen</button>
+<p id="hint1" class="hint hidden">Der Begriff beginnt mit „Keil…“.</p>
+</section>
+
+<section id="station1count" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Spur bestätigt</p>
+<h1>Jetzt sucht selbst</h1>
+<div class="scroll">
+<div class="archive-label">Varros Außenprüfung</div>
+<p>Hinter der Hütte befinden sich echte Spuren der Steinbearbeitung.</p>
+<p><strong>Aufgabe:</strong> Sucht die Keillöcher hinter der Hütte und zählt sie genau.</p>
+<p>Wie viele Keillöcher findet ihr?</p>
+</div>
+<label for="count1">Anzahl der Keillöcher:</label>
+<input id="count1" inputmode="numeric" autocomplete="off" placeholder="Zahl eingeben">
+<button class="primary" onclick="checkCount1()">Anzahl prüfen</button>
+<p id="feedbackCount1" class="feedback"></p>
+</section>
+
+<section id="station1coord" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Koordinatenrätsel</p>
+<h1>Die Zahl weist den Weg</h1>
+<div class="coord-card">
+<h3>Unvollständige Zielkoordinate</h3>
+<div class="coord-puzzle">49.73100<strong>?</strong>, <strong>?</strong>.692209</div>
+</div>
+<div class="scroll">
+<p>Ihr habt <strong>18</strong> Keillöcher gefunden.</p>
+<p>Fügt nun die beiden Ziffern anstelle der Fragezeichen in eure Zielkoordinate ein und ihr wisst, wo ihr nach dem nächsten Hinweis suchen müsst.</p>
+</div>
+<label for="coordN1">Fehlende Ziffer in der ersten Koordinate:</label>
+<input id="coordN1" inputmode="numeric" maxlength="1" autocomplete="off" placeholder="?">
+<label for="coordE1">Fehlende Ziffer in der zweiten Koordinate:</label>
+<input id="coordE1" inputmode="numeric" maxlength="1" autocomplete="off" placeholder="?">
+<button class="primary" onclick="checkCoord1()">Koordinate prüfen</button>
+<p id="feedbackCoord1" class="feedback"></p>
+</section>
+
+<section id="success1" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Koordinate rekonstruiert</p>
+<h1>Nächstes Ziel</h1>
+<div class="coord-card">
+<h3>Zielkoordinate</h3>
+<div class="coordinates">49.731001, 8.692209</div>
+</div>
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.731001,8.692209" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station2',49.731001,8.692209,this)">Am nächsten Ziel angekommen</button>
+</section>
+
+<section id="station2" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 2 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:16.6%"></div></div></div>
+<p class="eyebrow">Station II · Riesensarg</p>
+<h1>Das Zeichen am Stein</h1>
+<div class="scroll">
+<div class="archive-label">Varros zweite Prüfung</div>
+<p>„Wer meinem Weg weiter folgen will, muss die Zeichen im Stein erkennen.</p>
+<p>Sucht den <strong>behauenen Felsen</strong> – den sogenannten Riesensarg.</p>
+<p>Auf ihm befindet sich eine auffällige Zahl. Sie stammt nicht aus meiner Zeit – und doch wird sie euch den Weg weisen.“</p>
+<p class="riddle">Welche Zahl findet ihr auf dem Stein?</p>
+</div>
+<label for="answer2">Gefundene Zahl:</label>
+<input id="answer2" inputmode="numeric" autocomplete="off" placeholder="Zahl eingeben">
+<button class="primary" onclick="checkNumber24()">Zahl prüfen</button>
+<p id="feedback2" class="feedback"></p>
+<button class="secondary" onclick="showHint('hint2')">Hinweis anzeigen</button>
+<p id="hint2" class="hint hidden">Schaut euch den behauenen Stein ganz genau an. Gesucht ist eine rote zweistellige Zahl.</p>
+</section>
+
+<section id="station2coord" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Koordinatenrätsel</p>
+<h1>Die 24 weist den Weg</h1>
+<div class="coord-card"><h3>Unvollständige Zielkoordinate</h3><div class="coord-puzzle">49.<strong>??</strong>9246, 8.692<strong>?</strong>05</div></div>
+<div class="scroll">
+<div class="archive-label">Varros Hinweis</div>
+<p>Ihr habt die Zahl <strong>24</strong> gefunden.</p>
+<p>Sehr gut. Denn diese braucht ihr wieder, um die nächste Koordinate zu ermitteln.</p>
+<p>Multipliziert die Zahl 24 mit ihrem 8. Teil. Das Ergebnis sind die ersten beiden fehlenden Ziffern.</p>
+<p>Die dritte Ziffer erhaltet ihr, wenn ihr die ganze Zahl 24 durch ihre zweite Ziffer teilt.</p>
+</div>
+<label for="coordN2">Die ersten beiden fehlenden Ziffern:</label>
+<input id="coordN2" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="??">
+<label for="coordE2">Die dritte fehlende Ziffer:</label>
+<input id="coordE2" inputmode="numeric" maxlength="1" autocomplete="off" placeholder="?">
+<button class="primary" onclick="checkCoord2()">Koordinate prüfen</button>
+<p id="feedbackCoord2" class="feedback"></p>
+</section>
+
+<section id="success2" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Koordinate rekonstruiert</p>
+<h1>Nächstes Ziel</h1>
+<div class="coord-card"><h3>Zielkoordinate Station III</h3><div class="coordinates">49.729246, 8.692605</div></div>
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.729246,8.692605" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station3',49.729246,8.692605,this)">Am nächsten Ziel angekommen</button>
+</section>
+
+<section id="station3" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Varros nächste Spur</p>
+<h1>Das Riesenschiff</h1>
+<div class="scroll">
+<div class="archive-label">Nachricht von Varro</div>
+<p>Die schweren Steinblöcke vom Felsberg mussten einst zu weit entfernten Bauwerken transportiert werden. Viele von ihnen traten ihre Reise auf <strong>Schiffen</strong> an.</p>
+<p>Vielleicht ist es deshalb kein Zufall, dass auch einer der mächtigsten Felsen hier einen besonderen Namen trägt und in vielen Karten eingezeichnet wurde:</p>
+<p><strong>Das Riesenschiff</strong></p>
+<p>Sucht diesen gewaltigen Stein.</p>
+<p>Denn dort habe ich den nächsten Hinweis für euch verborgen.</p>
+<p><strong>MARCUS CASSIUS VARRO</strong></p>
+</div>
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.729246,8.692605" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station3search',49.729246,8.692605,this)">Am Riesenschiff angekommen</button>
+</section>
+
+<section id="station3search" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 3 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:25.0%"></div></div></div>
+<p class="eyebrow">Station III · Riesenschiff</p>
+<h1>Die Zeichen im Wald</h1>
+
+<div class="scroll">
+<div class="archive-label">Varros Spur</div>
+
+<p>Ihr seid am Riesenschiff angekommen. Doch der nächste Hinweis befindet sich nicht direkt hier.</p>
+
+<p>Auf eurem Weg hierher seid ihr bereits ganz in seiner Nähe vorbeigekommen.</p>
+
+<p>Sucht im Umkreis von etwa <strong>20 Metern</strong> nach einem Baum, der ein altes Zeichen trägt.</p>
+
+<p><strong>Drei Buchstaben wurden in seine Rinde geritzt.</strong></p>
+
+<p>Merkt sie euch gut – doch Buchstaben allein werden euch nicht weiterbringen. Ihr müsst sie in Zahlen umwandeln.</p>
+
+
+</div>
+<label for="polybius3">Welche Zahlen ergeben die drei Buchstaben?</label>
+<input id="polybius3" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="??????">
+
+<button class="primary" onclick="checkPolybius3()">Zahlen prüfen</button>
+<p id="feedbackPolybius3" class="feedback"></p>
+
+<button class="secondary" onclick="toggleHint3()">Hinweis</button>
+<p id="hintPolybius3" class="hint hidden">Vielleicht befindet sich etwas in eurer Ausrüstung, mit dem ihr die Buchstaben entschlüsseln könnt.</p>
+</section>
+
+
+
+
+
+<section id="station4route" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+</div>
+<p class="eyebrow">Varros Spur</p>
+<h1>Der schmale Pfad</h1>
+<div class="scroll">
+<div class="archive-label">Nachricht von Varro</div>
+<p>Dreht dem <strong>Riesenschiff den Rücken zu</strong> und haltet Ausschau nach einem <strong>schmalen Pfad, der den Berg hinunterführt</strong>.</p>
+<p>Folgt diesem Pfad und begebt euch zu den Koordinaten <strong>49.729856, 8.694642</strong>.</p>
+<p>Dort wartet eure <strong>nächste Aufgabe</strong>.</p>
+<p><strong>MARCUS CASSIUS VARRO</strong></p>
+</div>
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.729856,8.694642" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station4',49.729856,8.694642,this)">Am nächsten Ziel angekommen</button>
+</section>
+
+
+<section id="station4" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 4 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:33.3%"></div></div></div>
+<p class="eyebrow">Station IV · Die richtige Richtung</p>
+<h1>Varros Rätsel</h1>
+
+<div class="scroll">
+<div class="archive-label">Die richtige Richtung</div>
+<p>Ihr habt den breiten Weg erreicht. Doch welchen Weg müsst ihr einschlagen?</p>
+
+<p style="text-align:center"><em>Ich zeige euch den Weg,<br>
+obwohl ich keine Füße habe.</em></p>
+
+<p style="text-align:center"><em>Ich kenne <strong>Norden, Süden, Osten und Westen</strong>.</em></p>
+
+<p>Dieses Rätsel soll euch helfen, das richtige Werkzeug zu wählen und dann dem breiten Weg in Richtung <strong>Südosten</strong> zu folgen.</p>
+
+<p><strong>Haltet auf eurem Weg die Augen offen.</strong></p>
+
+<p>Irgendwo auf eurem Weg liegt eine <strong>Tonscherbe</strong>.</p>
+
+<p>Sie wird euch den nächsten Hinweis geben.</p>
+</div>
+
+<button class="primary" onclick="showScreen('station5solve')">Tonscherbe gefunden</button>
+
+<button class="secondary" onclick="toggleHint4()">Hinweis</button>
+<p id="hint4" class="hint hidden">Auf der Tonscherbe stehen zwei Zahlen – allerdings in römischer Schreibweise.</p>
+</section>
+
+
+
+
+
+
+
+<section id="station5solve" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 5 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:41.7%"></div></div></div>
+<p class="eyebrow">Station V · Römische Zahlen</p>
+<h1>Die römischen Zahlen</h1>
+
+<div class="coord-card">
+<h3>Unvollständige Zielkoordinate</h3>
+<div class="coord-puzzle">49.7300<strong>??</strong>, 8.700<strong>???</strong></div>
+</div>
+
+<div class="scroll">
+<div class="archive-label">Varros Zahlenrätsel</div>
+<p>Habt ihr die Scherbe gefunden?</p>
+<p>Dann entschlüsselt die beiden <strong>römischen Zahlen LXXXII und DCCCLXXXIV</strong>.</p>
+<p>Ihr benötigt sie, um die fehlenden Stellen der nächsten Koordinate zu ergänzen.</p>
+<p>Setzt das Ergebnis der <strong>ersten römischen Zahl</strong> in die erste Lücke und das Ergebnis der <strong>zweiten römischen Zahl</strong> in die zweite Lücke ein.</p>
+</div>
+
+<label for="romanA5">Erste Zahl:</label>
+<input id="romanA5" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="??">
+
+<label for="romanB5">Zweite Zahl:</label>
+<input id="romanB5" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="???">
+
+<button class="primary" onclick="checkRoman5()">Zahlen prüfen</button>
+<p id="feedbackRoman5" class="feedback"></p>
+
+<button class="secondary" onclick="toggleHint5()">Hinweis</button>
+<p id="hint5" class="hint hidden">Bei den römischen Zahlen gilt zum Beispiel:<br>I = 1, V = 5, X = 10, L = 50, C = 100, D = 500 und M = 1000.</p>
+</section>
+
+<section id="station5success" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Koordinate rekonstruiert</p>
+<h1>Nächstes Ziel</h1>
+<div class="coord-card">
+<h3>Zielkoordinate Station VI</h3>
+<div class="coordinates">49.730082, 8.700884</div>
+</div>
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.730082,8.700884" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station6crossing',49.730082,8.700884,this)">Am nächsten Ziel angekommen</button>
+</section>
+
+
+
+
+<section id="station6crossing" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 6 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:50.0%"></div></div></div>
+<p class="eyebrow">Station VI · Untergehende Sonne</p>
+<h1>Varros Wegweiser</h1>
+
+<div class="scroll">
+<div class="archive-label">Die Wegkreuzung</div>
+<p>Ihr habt die Kreuzung erreicht.</p>
+<p>Drei Wege führen von hier weiter – doch nur einer folgt meiner Spur.</p>
+<p>Mein Hinweis lautet:</p>
+<p>Jeden Morgen steigt die Sonne im Osten empor.<br>
+Doch in welcher Himmelsrichtung verschwindet sie am Abend?</p>
+</div>
+
+<label for="west6">In welche Himmelsrichtung müsst ihr gehen?</label>
+<input id="west6" autocomplete="off" placeholder="Antwort eingeben">
+
+<button class="primary" onclick="checkWest6()">Antwort prüfen</button>
+<p id="feedbackWest6" class="feedback"></p>
+</section>
+
+<section id="station6route" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Varros nächste Spur</p>
+<h1>Die nächste Prüfung</h1>
+<div class="scroll">
+<div class="archive-label">Zielkoordinate</div>
+<p>Folgt dem Weg nach <strong>Westen</strong> und begebt euch zu den Koordinaten <strong>49.729128, 8.697196</strong>.</p>
+<p>Dort wartet die nächste Prüfung auf euch.</p>
+</div>
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.729128,8.697196" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station6aqua',49.729128,8.697196,this)">Am nächsten Ziel angekommen</button>
+</section>
+
+<section id="station6aqua" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 7 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:58.3%"></div></div></div>
+<p class="eyebrow">Station VII · Kraftvolles Element</p>
+<h1>Die Kraft im Holz</h1>
+<div class="scroll">
+<div class="archive-label">Prüfung der Steinmetze</div>
+<p>Meine Steinmetze konnten selbst mächtige Felsen spalten – und dafür brauchten sie nicht immer einen schweren Hammer.</p>
+<p>Sie trieben <strong>trockenes Holz</strong> in die Spalten des Steins.</p>
+<p>Doch erst eines der Elemente verlieh dem Holz seine Kraft.</p>
+<p><strong>Findet heraus, welches es war.</strong></p>
+<p>Ihr kennt die Antwort?</p>
+<p>Dann nennt mir nicht das deutsche Wort.</p>
+<p><strong>Wie hieß es in der Sprache der Römer?</strong></p>
+</div>
+<label for="aqua6">Eure Antwort:</label>
+<input id="aqua6" autocomplete="off" placeholder="????">
+<button class="primary" onclick="checkAqua6()">Antwort prüfen</button>
+<p id="feedbackAqua6" class="feedback"></p>
+</section>
+
+<section id="station6success" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Prüfung bestanden</p>
+<h1>Nächstes Ziel</h1>
+<div class="coord-card"><h3>Zielkoordinate</h3><div class="coordinates">49.727398, 8.692640</div></div>
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.727398,8.692640" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station7kerben',49.727398,8.692640,this)">Am nächsten Ziel angekommen</button>
+</section>
+
+<section id="station7kerben" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 8 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:66.7%"></div></div></div>
+<p class="eyebrow">Station VIII · Steinmauer</p>
+<h1>Die Zeichen der Steinmetze</h1>
+
+<div class="scroll">
+<div class="archive-label">Varros Spur im Stein</div>
+<p>Ihr steht nun an einem Ort, an dem die Arbeit der Steinmetze noch immer ihre Spuren hinterlassen hat.</p>
+<p>Schaut euch die Mauern aus bearbeiteten Steinen zu beiden Seiten des Weges genau an.</p>
+<p>Einer der Steine fällt besonders auf.</p>
+<p><strong>Der Stein, den ich meine, ist der oberste der linken Mauer, und ihr seid genau auf ihn zugelaufen.</strong></p>
+<p>In seiner Oberfläche findet ihr zahlreiche <strong>Kerben</strong>.</p>
+<p><strong>Zählt sie sorgfältig.</strong></p>
+<p>Multipliziert diese Zahl nun mit <strong>3</strong>.</p>
+<p>Das Ergebnis verrät euch, wie viele <strong>Schritte</strong> ihr von hier aus dem Weg weiter folgen müsst.</p>
+</div>
+
+<label for="steps7">Wie viele Schritte müsst ihr gehen?</label>
+<input id="steps7" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="??">
+<button class="primary" onclick="checkSteps7()">Ergebnis prüfen</button>
+<p id="feedbackSteps7" class="feedback"></p>
+</section>
+
+<section id="station7object" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 9 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:75.0%"></div></div></div>
+<p class="eyebrow">Station IX · Der besondere Stein</p>
+<h1>Der besondere Stein</h1>
+
+<div class="scroll">
+<div class="archive-label">Varros letzte Frage</div>
+<p>Zählt gemeinsam eure Schritte und haltet die Augen offen.</p>
+<p>Am Ende eures Marsches erwartet euch ein <strong>markanter Stein</strong>.</p>
+<p><strong>Was stellt er dar?</strong></p>
+<p>Gebt seinen Namen ein.</p>
+</div>
+
+<label for="object7">Name des Steins:</label>
+<input id="object7" autocomplete="off" placeholder="Name eingeben">
+<button class="primary" onclick="checkObject7()">Antwort prüfen</button>
+<p id="feedbackObject7" class="feedback"></p>
+</section>
+
+
+
+
+
+
+<section id="station9coord" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Koordinatenrätsel</p>
+<h1>Der Riesensessel weist den Weg</h1>
+
+<div class="coord-card">
+<h3>Unvollständige Zielkoordinate</h3>
+<div class="coord-puzzle"><strong>??</strong>.726808, 8.68898<strong>?</strong></div>
+</div>
+
+<div class="scroll">
+<div class="archive-label">Varros Hinweis</div>
+<p>Ihr habt den richtigen Namen herausgefunden.</p>
+<p>Die Buchstaben seines Namens weisen euch den Weg.</p>
+<p>Jeder Buchstabe besitzt einen Zahlenwert:</p>
+<p><strong>A = 1, B = 2, C = 3 … Z = 26</strong></p>
+<p>Addiert die Werte aller Buchstaben des Wortes <strong>RIESENSESSEL</strong>.</p>
+<p>Ihr erhaltet eine dreistellige Zahl.</p>
+<p>Setzt die <strong>zweite und dritte Ziffer</strong> eures Ergebnisses an den Anfang der Koordinate.</p>
+<p>Die <strong>erste Ziffer</strong> kommt an die letzte freie Stelle.</p>
+</div>
+
+<label for="coordStart9">Die ersten beiden fehlenden Ziffern:</label>
+<input id="coordStart9" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="??">
+
+<label for="coordEnd9">Die letzte fehlende Ziffer:</label>
+<input id="coordEnd9" inputmode="numeric" maxlength="1" autocomplete="off" placeholder="?">
+
+<button class="primary" onclick="checkCoord9()">Koordinate prüfen</button>
+<p id="feedbackCoord9" class="feedback"></p>
+</section>
+
+<section id="station9success" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Koordinate rekonstruiert</p>
+<h1>Nächstes Ziel</h1>
+
+<div class="coord-card">
+<h3>Zielkoordinate</h3>
+<div class="coordinates">49.726808, 8.688981</div>
+</div>
+
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.726808,8.688981" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station10',49.726808,8.688981,this)">Am nächsten Ziel angekommen</button>
+</section>
+
+
+
+
+
+<section id="station10" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 10 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:83.3%"></div></div></div>
+<p class="eyebrow">Station X · Caesars Botschaft</p>
+<h1>Caesars Botschaft</h1>
+
+<div class="scroll">
+<div class="archive-label">Eine Botschaft von Varro</div>
+<p>Ihr habt meine Spur bis hierher verfolgt. Doch den Namen eures nächsten Zieles werde ich euch nicht einfach verraten.</p>
+<p>Schon Caesars Boten wussten, wie man eine Nachricht vor fremden Augen verbirgt. Auch ich habe mich dieser Methode bedient.</p>
+<p>Entschlüsselt meine Nachricht. Sie verrät euch, welchen mächtigen Stein ihr als Nächstes suchen müsst.</p>
+<p style="text-align:center;font-size:26px;letter-spacing:4px;"><strong>ULHVHQVDHXOH</strong></p>
+</div>
+
+<label for="caesar10">Wie lautet der Name des gesuchten Steins?</label>
+<input id="caesar10" autocomplete="off" placeholder="Name eingeben">
+
+<button class="primary" onclick="checkCaesar10()">Antwort prüfen</button>
+<p id="feedbackCaesar10" class="feedback"></p>
+
+<button class="secondary" onclick="toggleHint10()">Hinweis</button>
+<p id="hint10" class="hint hidden">Um meine Botschaft zu lesen, müsst ihr jeden Buchstaben <strong>drei Stellen im Alphabet zurücksetzen</strong>.<br>Aus D wird A, aus E wird B …</p>
+</section>
+
+<section id="station10success" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Ziel entschlüsselt</p>
+<h1>Die Riesensäule</h1>
+
+<div class="scroll">
+<div class="archive-label">Varros nächste Spur</div>
+<p>Richtig. Ihr habt den Namen meines nächsten Zieles entschlüsselt.</p>
+<p>Sucht nun die <strong>Riesensäule</strong>.</p>
+
+</div>
+
+
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.727704,8.689076" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station11',49.727704,8.689076,this)">An der Riesensäule angekommen</button>
+</section>
+
+
+
+
+
+<section id="station11" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 11 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:91.7%"></div></div></div>
+<p class="eyebrow">Station XI · Die Riesensäule</p>
+<h1>Varros steinerner Koloss</h1>
+
+<div class="coord-card">
+<h3>Unvollständige Zielkoordinate</h3>
+<div class="coord-puzzle">49.7<strong>??</strong>381, 8.68<strong>?</strong>971</div>
+</div>
+
+<div class="scroll">
+<div class="archive-label">Varros Prüfung</div>
+<p>Ihr habt die <strong>Riesensäule</strong> gefunden.</p>
+<p>Nun will ich wissen, wie genau ihr diesen gewaltigen Stein betrachtet.</p>
+<p>Findet heraus, wie viel die Riesensäule ungefähr <strong>wiegt</strong> und wie <strong>lang</strong> sie ist.</p>
+<p>Rundet beide Angaben auf <strong>ganze Zahlen</strong>.</p>
+<p>Das <strong>Gewicht in Tonnen</strong> ergibt die ersten beiden fehlenden Ziffern der Koordinate.</p>
+<p>Die <strong>Länge in Metern</strong> ergibt die letzte fehlende Ziffer.</p>
+</div>
+
+<label for="weight11">Gewicht der Riesensäule in Tonnen:</label>
+<input id="weight11" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="??">
+
+<label for="length11">Länge der Riesensäule in Metern:</label>
+<input id="length11" inputmode="numeric" maxlength="1" autocomplete="off" placeholder="?">
+
+<button class="primary" onclick="checkStation11()">Koordinate prüfen</button>
+<p id="feedback11" class="feedback"></p>
+
+<button class="secondary" onclick="toggleHint11()">Hinweis</button>
+<p id="hint11" class="hint hidden">Schaut euch die <strong>Infotafel bei der Riesensäule</strong> genau an. Dort findet ihr die Angaben, die ihr braucht.</p>
+</section>
+
+
+
+
+
+
+
+<section id="station11target" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Zielkoordinate</p>
+<h1>Das nächste Ziel</h1>
+
+<div class="coord-card">
+<h3>Zielkoordinate</h3>
+<div class="coordinates">49.728381, 8.689971</div>
+</div>
+
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.728381,8.689971" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station12',49.728381,8.689971,this)">Am nächsten Ziel angekommen</button>
+</section>
+
+
+
+
+
+<section id="station12" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+</div>
+<p class="eyebrow">Varros letzte Spur</p>
+<h1>Am Altarstein</h1>
+
+<div class="scroll">
+<div class="archive-label">Varros letzte Botschaft</div>
+<p>Ihr habt den <strong>Altarstein</strong> erreicht.</p>
+<p>Schon meine Steinmetze hinterließen an diesem mächtigen Felsen ihre Spuren. Mit Eisen, Sand und Wasser schnitten sie in den harten Stein.</p>
+<p>Doch was ihr sucht, liegt nicht im Stein.</p>
+<p>Ganz in der Nähe habe ich das verborgen, was all die Jahrhunderte niemand finden sollte.</p>
+<p><strong>Findet die Kiste mit meinem Vermächtnis.</strong></p>
+<p><strong>Doch berührt oder öffnet sie noch nicht.</strong> Wenn ihr sie gefunden habt, lest zuerst meinen nächsten Auftrag.</p>
+</div>
+
+<button class="primary" onclick="showScreen('station12transport')">Kiste gefunden</button>
+</section>
+
+<section id="station12transport" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<div class="progress-wrap"><div class="progress-text">Prüfung 12 von 12</div><div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div></div>
+
+<p class="eyebrow">Station XII · Das Vermächtnis</p>
+<h1>Varros letzte Prüfung</h1>
+
+<div class="scroll">
+<div class="archive-label">Varros Auftrag</div>
+<p>Ihr habt meine Kiste gefunden.</p>
+<p>Doch eure Mission ist noch nicht erfüllt.</p>
+<p>Der besondere Stein darin darf erst im <strong>Basislager</strong> geborgen werden.</p>
+<p>Bringt die <strong>verschlossene Kiste gemeinsam</strong> dorthin.</p>
+<p><strong>Dabei dürft ihr die Kiste auf dem gesamten Weg nicht direkt mit euren Händen berühren.</strong></p>
+<p>Nutzt nur das, was ihr seit Beginn eurer Mission bei euch tragt.</p>
+</div>
+
+<button class="primary" onclick="showScreen('station12final')">Basislager erreicht</button>
+</section>
+
+<section id="station12final" class="screen">
+<img class="roman-icon" src="assets/roman-icon.png" alt="Römer-Icon">
+<p class="eyebrow">Mission erfüllt</p>
+<h1>Das Vermächtnis des Varro</h1>
+
+<div class="scroll">
+<div class="archive-label">Letzte Nachricht von Varro</div>
+<p>Ihr habt alle zwölf Prüfungen bestanden.</p>
+<p>Ihr seid meinen Spuren gefolgt, habt meine Zeichen entschlüsselt und das Vermächtnis gemeinsam bis ins Basislager gebracht.</p>
+<p><strong>Eure Mission ist erfüllt.</strong></p>
+<p>Nun dürft ihr die Kiste öffnen und bergen, was ich vor so langer Zeit verborgen habe.</p>
+<p><strong>MARCUS CASSIUS VARRO</strong></p>
+</div>
+</section>
+
+
+</main>
+
+<script>
+function normalize(v){return v.trim().toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]/g,'')}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function showHint(id){document.getElementById(id).classList.remove('hidden')}
+function checkKeillochWord(){
+ const val=normalize(document.getElementById('answer1').value),fb=document.getElementById('feedback1');
+ if(['keilloecher','keillocher','keillöcher'].map(normalize).includes(val)){fb.textContent='Richtig! Jetzt müsst ihr die echten Keillöcher finden.';fb.className='feedback ok';setTimeout(()=>showScreen('station1count'),500)}
+ else{fb.textContent='Noch nicht richtig. Überlegt noch einmal.';fb.className='feedback error'}
+}
+function checkCount1(){
+ const val=document.getElementById('count1').value.trim(),fb=document.getElementById('feedbackCount1');
+ if(val==='18'){fb.textContent='Richtig gezählt! Die Zahl 18 ist euer Schlüssel.';fb.className='feedback ok';setTimeout(()=>showScreen('station1coord'),500)}
+ else{fb.textContent='Das stimmt noch nicht. Zählt die Keillöcher noch einmal ganz genau.';fb.className='feedback error'}
+}
+function checkCoord1(){
+ const n=document.getElementById('coordN1').value.trim(),e=document.getElementById('coordE1').value.trim(),fb=document.getElementById('feedbackCoord1');
+ if(n==='1'&&e==='8'){fb.textContent='Richtig! Die Zielkoordinate ist vollständig.';fb.className='feedback ok';setTimeout(()=>showScreen('success1'),550)}
+ else{fb.textContent='Prüft die Reihenfolge: erste Ziffer der 18 in die erste Koordinate, zweite Ziffer in die zweite.';fb.className='feedback error'}
+}
+
+function checkNumber24(){
+ const val=document.getElementById('answer2').value.trim(),fb=document.getElementById('feedback2');
+ if(val==='24'){fb.textContent='Richtig! Die Zahl 24 ist euer nächster Schlüssel.';fb.className='feedback ok';setTimeout(()=>showScreen('station2coord'),500)}
+ else{fb.textContent='Das ist noch nicht die gesuchte Zahl. Schaut euch den Stein noch einmal genau an.';fb.className='feedback error'}
+}
+function checkCoord2(){
+ const n=document.getElementById('coordN2').value.trim(),e=document.getElementById('coordE2').value.trim(),fb=document.getElementById('feedbackCoord2');
+ if(n==='72'&&e==='6'){fb.textContent='Richtig! Die Zielkoordinate ist vollständig.';fb.className='feedback ok';setTimeout(()=>showScreen('success2'),550)}
+ else{fb.textContent='Prüft eure Rechnungen noch einmal.';fb.className='feedback error'}
+}
+
+
+function checkPolybius3(){
+ const value=document.getElementById('polybius3').value.replace(/\s|[-–—]/g,'').trim();
+ const fb=document.getElementById('feedbackPolybius3');
+ if(value==='323313'){
+   fb.textContent='Richtig! Ihr habt Varros Zeichen entschlüsselt: M = 32, N = 33, C = 13.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station4route'),700);
+ } else {
+   fb.textContent='Das ist nicht richtig. Schaut euch noch einmal genau an, was ihr zu Beginn eurer Mission erhalten habt.';
+   fb.className='feedback error';
+ }
+}
+
+
+function checkRoman5(){
+ const a=document.getElementById('romanA5').value.trim();
+ const b=document.getElementById('romanB5').value.trim();
+ const fb=document.getElementById('feedbackRoman5');
+ if(a==='82' && b==='884'){
+   fb.textContent='Richtig! Ihr habt die römischen Zahlen entschlüsselt.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station5success'),650);
+ } else {
+   fb.textContent='Das ist noch nicht richtig. Prüft die römischen Zahlen auf der Tonscherbe noch einmal.';
+   fb.className='feedback error';
+ }
+}
+
+
+function checkAqua6(){
+ const value=document.getElementById('aqua6').value.trim().toLowerCase();
+ const fb=document.getElementById('feedbackAqua6');
+ if(value==='aqua'){
+   fb.textContent='Richtig! AQUA ist das gesuchte Wort.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station6success'),650);
+ } else {
+   fb.textContent='Das ist noch nicht richtig. Ihr kennt die Antwort vermutlich längst – aber Varro möchte ihren Namen in der Sprache der Römer hören.';
+   fb.className='feedback error';
+ }
+}
+
+
+function checkSteps7(){
+ const value=document.getElementById('steps7').value.trim();
+ const fb=document.getElementById('feedbackSteps7');
+ if(value==='93'){
+   fb.textContent='Richtig! 31 × 3 = 93.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station7object'),650);
+ } else {
+   fb.textContent='Das Ergebnis stimmt noch nicht. Rechnet 31 × 3 noch einmal.';
+   fb.className='feedback error';
+ }
+}
+
+function checkObject7(){
+ const value=document.getElementById('object7').value.trim().toLowerCase();
+ const fb=document.getElementById('feedbackObject7');
+ if(value==='riesensessel'){
+   fb.textContent='Richtig! Ihr habt den Riesensessel gefunden.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station9coord'),650);
+ } else {
+   fb.textContent='Das ist noch nicht der gesuchte Name. Schaut euch den Stein noch einmal genau an. Falls ihr nicht erkennt, was er darstellen soll: Hinter dem Stein findet ihr ein etwas verblasstes Schild.';
+   fb.className='feedback error';
+ }
+}
+
+
+function checkWest6(){
+ const value=document.getElementById('west6').value.trim().toLowerCase();
+ const fb=document.getElementById('feedbackWest6');
+ if(value==='westen'){
+   fb.textContent='Richtig! Folgt an der Kreuzung dem Weg nach Westen.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station6route'),650);
+ } else {
+   fb.textContent='Das ist noch nicht richtig. Denkt daran, in welcher Himmelsrichtung die Sonne am Abend untergeht.';
+   fb.className='feedback error';
+ }
+}
+
+
+function toggleHint3(){
+ const hint=document.getElementById('hintPolybius3');
+ hint.classList.toggle('hidden');
+}
+
+
+function toggleHint4(){
+ const hint=document.getElementById('hint4');
+ hint.classList.toggle('hidden');
+}
+
+
+function toggleHint5(){
+ const hint=document.getElementById('hint5');
+ hint.classList.toggle('hidden');
+}
+
+
+function checkCoord9(){
+ const a=document.getElementById('coordStart9').value.trim();
+ const b=document.getElementById('coordEnd9').value.trim();
+ const fb=document.getElementById('feedbackCoord9');
+ if(a==='49' && b==='1'){
+   fb.textContent='Richtig! Ihr habt den Buchstabenwert richtig genutzt.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station9success'),650);
+ } else {
+   fb.textContent='Das ist noch nicht richtig. Prüft die Buchstabenwerte von RIESENSESSEL und achtet auf die Reihenfolge der Ziffern.';
+   fb.className='feedback error';
+ }
+}
+
+
+function checkCaesar10(){
+ const value=document.getElementById('caesar10').value.trim().toLowerCase();
+ const fb=document.getElementById('feedbackCaesar10');
+ if(value==='riesensäule' || value==='riesensaeule'){
+   fb.textContent='Richtig! Ihr habt Caesars Botschaft entschlüsselt.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station10success'),650);
+ } else {
+   fb.textContent='Das ist noch nicht richtig. Versucht, Varros verschlüsselte Botschaft noch einmal zu entziffern.';
+   fb.className='feedback error';
+ }
+}
+
+function toggleHint10(){
+ const hint=document.getElementById('hint10');
+ hint.classList.toggle('hidden');
+}
+
+
+function checkStation11(){
+ const weight=document.getElementById('weight11').value.trim();
+ const length=document.getElementById('length11').value.trim();
+ const fb=document.getElementById('feedback11');
+ if(weight==='28' && length==='9'){
+   fb.textContent='Richtig! Ihr habt die fehlenden Ziffern der Koordinate gefunden.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station11target'),650);
+ } else {
+   fb.textContent='Das ist noch nicht richtig. Prüft Gewicht und Länge noch einmal und denkt daran, beide Angaben auf ganze Zahlen zu runden.';
+   fb.className='feedback error';
+ }
+}
+
+function toggleHint11(){
+ const hint=document.getElementById('hint11');
+ hint.classList.toggle('hidden');
+}
+
+
+
+
+const ARRIVAL_RADIUS_METERS = 15;
+const MAX_ACCEPTABLE_ACCURACY = 25;
+
+function distanceMeters(lat1, lon1, lat2, lon2){
+  const R = 6371000;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2-lat1);
+  const dLon = toRad(lon2-lon1);
+  const a = Math.sin(dLat/2)**2 +
+            Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function setLocationStatus(button, message, kind=''){
+  let status = button.nextElementSibling;
+  if(!status || !status.classList.contains('location-status')){
+    status = document.createElement('p');
+    status.className = 'location-status';
+    button.insertAdjacentElement('afterend', status);
+  }
+  status.className = 'location-status' + (kind ? ' ' + kind : '');
+  status.textContent = message;
+}
+
+function checkLocationAndOpen(screenId, targetLat, targetLon, button){
+  if(!navigator.geolocation){
+    setLocationStatus(button,'Dieses Gerät kann den Standort leider nicht bestimmen.','error');
+    return;
+  }
+
+  const originalText = button.textContent;
+  button.disabled = true;
+  button.textContent = 'Standort wird geprüft …';
+  setLocationStatus(button,'Bitte kurz warten. Das GPS wird abgefragt.');
+
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      button.disabled = false;
+      button.textContent = originalText;
+
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const accuracy = position.coords.accuracy || 999;
+      const distance = distanceMeters(lat,lon,targetLat,targetLon);
+
+      if(accuracy > MAX_ACCEPTABLE_ACCURACY){
+        setLocationStatus(
+          button,
+          'Das GPS ist im Moment noch zu ungenau. Bleibt kurz stehen und versucht es noch einmal.',
+          'error'
+        );
+        return;
+      }
+
+      if(distance <= ARRIVAL_RADIUS_METERS){
+        setLocationStatus(button,'Ziel erreicht – die nächste Station wird freigeschaltet.','ok');
+        setTimeout(()=>showScreen(screenId),450);
+      }else{
+        setLocationStatus(
+          button,
+          'Ihr seid noch nicht ganz am Ziel. Geht noch etwas näher heran und versucht es erneut.',
+          'error'
+        );
+      }
+    },
+    error => {
+      button.disabled = false;
+      button.textContent = originalText;
+
+      let message = 'Der Standort konnte gerade nicht bestimmt werden. Versucht es noch einmal.';
+      if(error.code === 1){
+        message = 'Bitte erlaubt dem Browser den Zugriff auf euren Standort und versucht es erneut.';
+      }else if(error.code === 2){
+        message = 'Das GPS-Signal ist gerade nicht verfügbar. Geht möglichst ins Freie und versucht es erneut.';
+      }else if(error.code === 3){
+        message = 'Die Standortbestimmung hat zu lange gedauert. Versucht es noch einmal.';
+      }
+      setLocationStatus(button,message,'error');
+    },
+    {enableHighAccuracy:true, timeout:15000, maximumAge:0}
+  );
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+document.getElementById('length11').addEventListener('keydown',e=>{if(e.key==='Enter')checkStation11()});
+ document.getElementById('weight11').addEventListener('keydown',e=>{if(e.key==='Enter')checkStation11()});
+
+ document.getElementById('caesar10').addEventListener('keydown',e=>{if(e.key==='Enter')checkCaesar10()});
+
+ document.getElementById('coordStart9').addEventListener('keydown',e=>{if(e.key==='Enter')checkCoord9()});
+ document.getElementById('coordEnd9').addEventListener('keydown',e=>{if(e.key==='Enter')checkCoord9()});
+
+ document.getElementById('west6').addEventListener('keydown',e=>{if(e.key==='Enter')checkWest6()});
+
+ document.getElementById('aqua6').addEventListener('keydown',e=>{if(e.key==='Enter')checkAqua6()});
+document.getElementById('steps7').addEventListener('keydown',e=>{if(e.key==='Enter')checkSteps7()});
+ document.getElementById('object7').addEventListener('keydown',e=>{if(e.key==='Enter')checkObject7()});
+
+ document.getElementById('romanA5').addEventListener('keydown',e=>{if(e.key==='Enter')checkRoman5()});
+ document.getElementById('romanB5').addEventListener('keydown',e=>{if(e.key==='Enter')checkRoman5()});
+
+ document.getElementById('answer1').addEventListener('keydown',e=>{if(e.key==='Enter')checkKeillochWord()});
+ document.getElementById('count1').addEventListener('keydown',e=>{if(e.key==='Enter')checkCount1()});
+ document.getElementById('coordE1').addEventListener('keydown',e=>{if(e.key==='Enter')checkCoord1()});
+ document.getElementById('answer2').addEventListener('keydown',e=>{if(e.key==='Enter')checkNumber24()});
+ document.getElementById('coordE2').addEventListener('keydown',e=>{if(e.key==='Enter')checkCoord2()});
+ document.getElementById('polybius3').addEventListener('keydown',e=>{if(e.key==='Enter')checkPolybius3()});
+});
+</script>
+</body>
+</html>
