@@ -876,86 +876,109 @@ function toggleHint11(){
 
 
 
-const ARRIVAL_RADIUS_METERS = 15;
+const ARRIVAL_RADIUS_METERS = 30;
 const MAX_ACCEPTABLE_ACCURACY = 25;
+const EMERGENCY_CODE = 'VARRO364';
 
 function distanceMeters(lat1, lon1, lat2, lon2){
-  const R = 6371000;
-  const toRad = d => d * Math.PI / 180;
-  const dLat = toRad(lat2-lat1);
-  const dLon = toRad(lon2-lon1);
-  const a = Math.sin(dLat/2)**2 +
-            Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
-  return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const R=6371000;
+  const toRad=d=>d*Math.PI/180;
+  const dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
+  const a=Math.sin(dLat/2)**2+
+    Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
 
-function setLocationStatus(button, message, kind=''){
-  let status = button.nextElementSibling;
-  if(!status || !status.classList.contains('location-status')){
-    status = document.createElement('p');
-    status.className = 'location-status';
-    button.insertAdjacentElement('afterend', status);
+function emergencyUnlock(targetScreen, button){
+  const code=prompt('GPS-Notfallfreigabe\n\nGebt den Notfall-Code ein:');
+  if(code===null) return;
+  if(code.trim().toUpperCase()===EMERGENCY_CODE){
+    showScreen(targetScreen);
+  } else {
+    const status=getGpsStatus(button);
+    if(status){
+      status.innerHTML='<span style="color:#e4a63a;font-weight:700;">Der Notfall-Code ist nicht richtig.</span>';
+    } else {
+      alert('Der Notfall-Code ist nicht richtig.');
+    }
   }
-  status.className = 'location-status' + (kind ? ' ' + kind : '');
-  status.textContent = message;
 }
 
-function checkLocationAndOpen(screenId, targetLat, targetLon, button){
+function getGpsStatus(button){
+  if(!button) return null;
+  let status=button.parentElement.querySelector('.gps-live-status');
+  if(!status){
+    status=document.createElement('div');
+    status.className='gps-live-status';
+    status.style.marginTop='12px';
+    status.style.lineHeight='1.45';
+    status.style.textAlign='center';
+    button.insertAdjacentElement('afterend',status);
+  }
+  return status;
+}
+
+function addEmergencyButton(targetScreen, button){
+  if(!button || button.parentElement.querySelector('.gps-emergency-button')) return;
+  const b=document.createElement('button');
+  b.type='button';
+  b.className='gps-emergency-button';
+  b.textContent='GPS funktioniert nicht?';
+  b.style.marginTop='10px';
+  b.style.background='#2a1d16';
+  b.style.color='#ead9b8';
+  b.style.border='1px solid #8b6338';
+  b.onclick=()=>emergencyUnlock(targetScreen,button);
+  const status=getGpsStatus(button);
+  status.insertAdjacentElement('afterend',b);
+}
+
+function checkLocationAndOpen(targetScreen, targetLat, targetLon, button){
+  const status=getGpsStatus(button);
+  addEmergencyButton(targetScreen,button);
+
   if(!navigator.geolocation){
-    setLocationStatus(button,'Dieses Gerät kann den Standort leider nicht bestimmen.','error');
+    status.innerHTML='<strong>Standortbestimmung wird von diesem Gerät nicht unterstützt.</strong><br>Verwendet unten die GPS-Notfallfreigabe.';
     return;
   }
 
-  const originalText = button.textContent;
-  button.disabled = true;
-  button.textContent = 'Standort wird geprüft …';
-  setLocationStatus(button,'Bitte kurz warten. Das GPS wird abgefragt.');
+  status.innerHTML='Standort wird geprüft …';
 
   navigator.geolocation.getCurrentPosition(
-    position => {
-      button.disabled = false;
-      button.textContent = originalText;
+    pos=>{
+      const accuracy=Math.round(pos.coords.accuracy);
+      const distance=Math.round(distanceMeters(
+        pos.coords.latitude,pos.coords.longitude,targetLat,targetLon
+      ));
 
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      const accuracy = position.coords.accuracy || 999;
-      const distance = distanceMeters(lat,lon,targetLat,targetLon);
-
-      if(accuracy > MAX_ACCEPTABLE_ACCURACY){
-        setLocationStatus(
-          button,
-          'Das GPS ist im Moment noch zu ungenau. Bleibt kurz stehen und versucht es noch einmal.',
-          'error'
-        );
+      if(pos.coords.accuracy>MAX_ACCEPTABLE_ACCURACY){
+        status.innerHTML=
+          '<strong>Das GPS-Signal ist im Moment zu ungenau.</strong><br>'+
+          'GPS-Genauigkeit: ±'+accuracy+' m<br>'+
+          'Entfernung zum Ziel laut GPS: '+distance+' m<br>'+
+          'Versucht es noch einmal oder verwendet im Notfall die Freigabe unten.';
         return;
       }
 
-      if(distance <= ARRIVAL_RADIUS_METERS){
-        setLocationStatus(button,'Ziel erreicht – die nächste Station wird freigeschaltet.','ok');
-        setTimeout(()=>showScreen(screenId),450);
-      }else{
-        setLocationStatus(
-          button,
-          'Ihr seid noch nicht ganz am Ziel. Geht noch etwas näher heran und versucht es erneut.',
-          'error'
-        );
+      if(distance<=ARRIVAL_RADIUS_METERS){
+        status.innerHTML=
+          'Ziel erreicht · Entfernung laut GPS: '+distance+' m · Genauigkeit: ±'+accuracy+' m';
+        setTimeout(()=>showScreen(targetScreen),350);
+      } else {
+        status.innerHTML=
+          '<strong>Ihr seid laut GPS noch '+distance+' m vom Ziel entfernt.</strong><br>'+
+          'GPS-Genauigkeit: ±'+accuracy+' m<br>'+
+          'Geht noch etwas näher heran und versucht es erneut. Falls ihr sicher am richtigen Ort seid, könnt ihr unten die GPS-Notfallfreigabe verwenden.';
       }
     },
-    error => {
-      button.disabled = false;
-      button.textContent = originalText;
-
-      let message = 'Der Standort konnte gerade nicht bestimmt werden. Versucht es noch einmal.';
-      if(error.code === 1){
-        message = 'Bitte erlaubt dem Browser den Zugriff auf euren Standort und versucht es erneut.';
-      }else if(error.code === 2){
-        message = 'Das GPS-Signal ist gerade nicht verfügbar. Geht möglichst ins Freie und versucht es erneut.';
-      }else if(error.code === 3){
-        message = 'Die Standortbestimmung hat zu lange gedauert. Versucht es noch einmal.';
-      }
-      setLocationStatus(button,message,'error');
+    err=>{
+      let msg='Der Standort konnte nicht bestimmt werden.';
+      if(err.code===1) msg='Der Standortzugriff wurde nicht erlaubt.';
+      if(err.code===2) msg='Der Standort ist im Moment nicht verfügbar.';
+      if(err.code===3) msg='Die Standortbestimmung hat zu lange gedauert.';
+      status.innerHTML='<strong>'+msg+'</strong><br>Versucht es erneut oder verwendet im Notfall die Freigabe unten.';
     },
-    {enableHighAccuracy:true, timeout:15000, maximumAge:0}
+    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
   );
 }
 
