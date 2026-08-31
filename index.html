@@ -238,13 +238,13 @@ button,.linkbutton{width:100%;padding:15px 18px;border-radius:8px;font-family:in
 
 <p>Ihr seid am Riesenschiff angekommen. Doch der nächste Hinweis befindet sich nicht direkt hier.</p>
 
-<p>Auf eurem Weg hierher seid ihr bereits ganz in seiner Nähe vorbeigekommen.</p>
+<p>Auf eurem Weg hierrunter zum Schiff seid ihr bereits ganz nahe an ihm vorbeigekommen.</p>
 
 <p>Sucht im Umkreis von etwa <strong>20 Metern</strong> nach einem Baum, der ein altes Zeichen trägt.</p>
 
 <p><strong>Drei Buchstaben wurden in seine Rinde geritzt.</strong></p>
 
-<p>Merkt sie euch gut – doch Buchstaben allein werden euch nicht weiterbringen. Ihr müsst sie in Zahlen umwandeln.</p>
+<p>Merkt sie euch gut – doch Buchstaben allein werden euch nicht weiterbringen. Ihr müsst sie in Zahlen umwandeln. Geht zurück zum Schiff und überlegt gemeinsam.</p>
 
 
 </div>
@@ -269,7 +269,7 @@ button,.linkbutton{width:100%;padding:15px 18px;border-radius:8px;font-family:in
 <h1>Der schmale Pfad</h1>
 <div class="scroll">
 <div class="archive-label">Nachricht von Varro</div>
-<p>Dreht dem <strong>Riesenschiff den Rücken zu</strong> und haltet Ausschau nach einem <strong>schmalen Pfad, der den Berg hinunterführt</strong>.</p>
+<p>Dreht dem <strong>Riesenschiff den Rücken zu</strong> und haltet Ausschau nach einem <strong>schmalen Pfad zwischen den Bäumen, der den Berg hinunterführt</strong>.</p>
 <p>Folgt diesem Pfad und begebt euch zu den Koordinaten <strong>49.729856, 8.694642</strong>.</p>
 <p>Dort wartet eure <strong>nächste Aufgabe</strong>.</p>
 <p><strong>MARCUS CASSIUS VARRO</strong></p>
@@ -306,7 +306,7 @@ obwohl ich keine Füße habe.</em></p>
 <button class="primary" onclick="showScreen('station5solve')">Tonscherbe gefunden</button>
 
 <button class="secondary" onclick="toggleHint4()">Hinweis</button>
-<p id="hint4" class="hint hidden">Auf der Tonscherbe stehen zwei Zahlen – allerdings in römischer Schreibweise.</p>
+<p id="hint4" class="hint hidden">Von der Fundstelle der Tonscherbe aus kann man einen Lattenzaun sehen. Auf der Scherbe stehen zwei Zahlen – allerdings in römischer Schreibweise.</p>
 </section>
 
 
@@ -321,17 +321,11 @@ obwohl ich keine Füße habe.</em></p>
 <p class="eyebrow">Station V · Römische Zahlen</p>
 <h1>Die römischen Zahlen</h1>
 
-<div class="coord-card">
-<h3>Unvollständige Zielkoordinate</h3>
-<div class="coord-puzzle">49.7300<strong>??</strong>, 8.700<strong>???</strong></div>
-</div>
-
 <div class="scroll">
 <div class="archive-label">Varros Zahlenrätsel</div>
 <p>Habt ihr die Scherbe gefunden?</p>
 <p>Dann entschlüsselt die beiden <strong>römischen Zahlen LXXXII und DCCCLXXXIV</strong>.</p>
-<p>Ihr benötigt sie, um die fehlenden Stellen der nächsten Koordinate zu ergänzen.</p>
-<p>Setzt das Ergebnis der <strong>ersten römischen Zahl</strong> in die erste Lücke und das Ergebnis der <strong>zweiten römischen Zahl</strong> in die zweite Lücke ein.</p>
+<p>Wenn ihr beide Zahlen richtig entschlüsselt habt, wird die nächste Koordinate freigeschaltet.</p>
 </div>
 
 <label for="romanA5">Erste Zahl:</label>
@@ -353,10 +347,10 @@ obwohl ich keine Füße habe.</em></p>
 <h1>Nächstes Ziel</h1>
 <div class="coord-card">
 <h3>Zielkoordinate Station VI</h3>
-<div class="coordinates">49.730082, 8.700884</div>
+<div class="coordinates">49.730194, 8.700583</div>
 </div>
-<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.730082,8.700884" target="_blank" rel="noopener">In Google Maps öffnen</a>
-<button class="secondary" onclick="checkLocationAndOpen('station6crossing',49.730082,8.700884,this)">Am nächsten Ziel angekommen</button>
+<a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.730194,8.700583" target="_blank" rel="noopener">In Google Maps öffnen</a>
+<button class="secondary" onclick="checkLocationAndOpen('station6crossing',49.730194,8.700583,this)">Am nächsten Ziel angekommen</button>
 </section>
 
 
@@ -377,7 +371,7 @@ obwohl ich keine Füße habe.</em></p>
 Doch in welcher Himmelsrichtung verschwindet sie am Abend?</p>
 </div>
 
-<label for="west6">In welche Himmelsrichtung müsst ihr gehen?</label>
+<label for="west6">Wie lautet die richtige Himmelsrichtung?</label>
 <input id="west6" autocomplete="off" placeholder="Antwort eingeben">
 
 <button class="primary" onclick="checkWest6()">Antwort prüfen</button>
@@ -390,7 +384,7 @@ Doch in welcher Himmelsrichtung verschwindet sie am Abend?</p>
 <h1>Die nächste Prüfung</h1>
 <div class="scroll">
 <div class="archive-label">Zielkoordinate</div>
-<p>Folgt dem Weg nach <strong>Westen</strong> und begebt euch zu den Koordinaten <strong>49.729128, 8.697196</strong>.</p>
+<p>Folgt dem Weg nach <strong>Südwesten</strong> und begebt euch zu den Koordinaten <strong>49.729128, 8.697196</strong>.</p>
 <p>Dort wartet die nächste Prüfung auf euch.</p>
 </div>
 <a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.729128,8.697196" target="_blank" rel="noopener">In Google Maps öffnen</a>
@@ -416,6 +410,8 @@ Doch in welcher Himmelsrichtung verschwindet sie am Abend?</p>
 <input id="aqua6" autocomplete="off" placeholder="????">
 <button class="primary" onclick="checkAqua6()">Antwort prüfen</button>
 <p id="feedbackAqua6" class="feedback"></p>
+<button class="secondary" onclick="toggleHintAqua6()">Hinweis</button>
+<p id="hintAqua6" class="hint hidden">Dieses Element brauchen alle Lebewesen zum Leben.</p>
 </section>
 
 <section id="station6success" class="screen">
@@ -441,12 +437,12 @@ Doch in welcher Himmelsrichtung verschwindet sie am Abend?</p>
 <p><strong>Der Stein, den ich meine, ist der oberste der linken Mauer, und ihr seid genau auf ihn zugelaufen.</strong></p>
 <p>In seiner Oberfläche findet ihr zahlreiche <strong>Kerben</strong>.</p>
 <p><strong>Zählt sie sorgfältig.</strong></p>
-<p>Multipliziert diese Zahl nun mit <strong>3</strong>.</p>
+<p>Multipliziert diese Zahl nun mit <strong>4</strong>.</p>
 <p>Das Ergebnis verrät euch, wie viele <strong>Schritte</strong> ihr von hier aus dem Weg weiter folgen müsst.</p>
 </div>
 
 <label for="steps7">Wie viele Schritte müsst ihr gehen?</label>
-<input id="steps7" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="??">
+<input id="steps7" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="???">
 <button class="primary" onclick="checkSteps7()">Ergebnis prüfen</button>
 <p id="feedbackSteps7" class="feedback"></p>
 </section>
@@ -640,12 +636,20 @@ Doch in welcher Himmelsrichtung verschwindet sie am Abend?</p>
 <p>Ihr habt den <strong>Altarstein</strong> erreicht.</p>
 <p>Schon meine Steinmetze hinterließen an diesem mächtigen Felsen ihre Spuren. Mit Eisen, Sand und Wasser schnitten sie in den harten Stein.</p>
 <p>Doch was ihr sucht, liegt nicht im Stein.</p>
-<p>Ganz in der Nähe habe ich das verborgen, was all die Jahrhunderte niemand finden sollte.</p>
+<p>Irgendwo im Umkreis von 50 Schritten habe ich das verborgen, was all die Jahrhunderte niemand finden sollte.</p>
 <p><strong>Findet die Kiste mit meinem Vermächtnis.</strong></p>
 <p><strong>Doch berührt oder öffnet sie noch nicht.</strong> Wenn ihr sie gefunden habt, lest zuerst meinen nächsten Auftrag.</p>
 </div>
 
-<button class="primary" onclick="showScreen('station12transport')">Kiste gefunden</button>
+<div class="scroll" style="margin-top:18px;">
+<div class="archive-label">Aufgabe</div>
+<p>Wenn ihr die Kiste gefunden habt, schaut sie euch genau an.</p>
+<p><strong>Welcher Name steht auf der Kiste?</strong></p>
+</div>
+<label for="chestName12">Name auf der Kiste:</label>
+<input id="chestName12" autocomplete="off" placeholder="Antwort eingeben">
+<button class="primary" onclick="checkChestName12()">Antwort prüfen</button>
+<p id="feedbackChestName12" class="feedback"></p>
 </section>
 
 <section id="station12transport" class="screen">
@@ -764,12 +768,12 @@ function checkAqua6(){
 function checkSteps7(){
  const value=document.getElementById('steps7').value.trim();
  const fb=document.getElementById('feedbackSteps7');
- if(value==='93'){
-   fb.textContent='Richtig! 31 × 3 = 93.';
+ if(value==='124'){
+   fb.textContent='Richtig! 31 × 4 = 124.';
    fb.className='feedback ok';
    setTimeout(()=>showScreen('station7object'),650);
  } else {
-   fb.textContent='Das Ergebnis stimmt noch nicht. Rechnet 31 × 3 noch einmal.';
+   fb.textContent='Das Ergebnis stimmt noch nicht. Rechnet 31 × 4 noch einmal.';
    fb.className='feedback error';
  }
 }
@@ -819,6 +823,11 @@ function toggleHint5(){
  hint.classList.toggle('hidden');
 }
 
+function toggleHintAqua6(){
+ const hint=document.getElementById('hintAqua6');
+ hint.classList.toggle('hidden');
+}
+
 
 function checkCoord9(){
  const a=document.getElementById('coordStart9').value.trim();
@@ -853,6 +862,19 @@ function toggleHint10(){
  hint.classList.toggle('hidden');
 }
 
+
+function checkChestName12(){
+ const value=document.getElementById('chestName12').value.trim().toLowerCase();
+ const fb=document.getElementById('feedbackChestName12');
+ if(value==='varro'){
+   fb.textContent='Richtig! Ihr habt Varros Kiste gefunden.';
+   fb.className='feedback ok';
+   setTimeout(()=>showScreen('station12transport'),650);
+ } else {
+   fb.textContent='Das ist noch nicht richtig. Schaut euch die Kiste noch einmal genau an.';
+   fb.className='feedback error';
+ }
+}
 
 function checkStation11(){
  const weight=document.getElementById('weight11').value.trim();
