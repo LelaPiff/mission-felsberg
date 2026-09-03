@@ -894,7 +894,7 @@ function toggleHint11(){
 
 
 const ARRIVAL_RADIUS_METERS = 30;
-const MAX_ACCEPTABLE_ACCURACY = 25;
+const MAX_UNLOCK_RADIUS_METERS = 130;
 const EMERGENCY_CODE = 'VARRO364';
 
 function distanceMeters(lat1, lon1, lat2, lon2){
@@ -968,16 +968,13 @@ function checkLocationAndOpen(targetScreen, targetLat, targetLon, button){
         pos.coords.latitude,pos.coords.longitude,targetLat,targetLon
       ));
 
-      if(pos.coords.accuracy>MAX_ACCEPTABLE_ACCURACY){
-        status.innerHTML=
-          '<strong>Das GPS-Signal ist im Moment zu ungenau.</strong><br>'+
-          'GPS-Genauigkeit: ±'+accuracy+' m<br>'+
-          'Entfernung zum Ziel laut GPS: '+distance+' m<br>'+
-          'Versucht es noch einmal oder verwendet im Notfall die Freigabe unten.';
-        return;
-      }
+      const allowedRadius=Math.min(
+        ARRIVAL_RADIUS_METERS + pos.coords.accuracy,
+        MAX_UNLOCK_RADIUS_METERS
+      );
+      const allowedRadiusRounded=Math.round(allowedRadius);
 
-      if(distance<=ARRIVAL_RADIUS_METERS){
+      if(distance<=allowedRadius){
         status.innerHTML=
           'Ziel erreicht · Entfernung laut GPS: '+distance+' m · Genauigkeit: ±'+accuracy+' m';
         setTimeout(()=>showScreen(targetScreen),350);
@@ -985,6 +982,7 @@ function checkLocationAndOpen(targetScreen, targetLat, targetLon, button){
         status.innerHTML=
           '<strong>Ihr seid laut GPS noch '+distance+' m vom Ziel entfernt.</strong><br>'+
           'GPS-Genauigkeit: ±'+accuracy+' m<br>'+
+          'Aktueller Freigabebereich: '+allowedRadiusRounded+' m<br>'+
           'Geht noch etwas näher heran und versucht es erneut. Falls ihr sicher am richtigen Ort seid, könnt ihr unten die GPS-Notfallfreigabe verwenden.';
       }
     },
