@@ -49,6 +49,25 @@ button,.linkbutton{width:100%;padding:15px 18px;border-radius:8px;font-family:in
 .location-status.ok{color:var(--success)}
 
 </style>
+
+<style>
+#station11target .coord-card,
+#station11target .scroll,
+#station11target .primary,
+#station11target .secondary {
+  width: calc(100% - 32px) !important;
+  max-width: 520px !important;
+  box-sizing: border-box !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#station11target .scroll,
+#station11target .scroll p,
+#station11target .scroll .archive-label {
+  text-align: left !important;
+}
+</style>
+
 </head>
 <body>
 <main class="app">
@@ -616,6 +635,15 @@ Doch in welcher Himmelsrichtung verschwindet sie am Abend?</p>
 <h3>Zielkoordinate</h3>
 <div class="coordinates">49.728381, 8.689971</div>
 </div>
+
+
+<div class="scroll" style="text-align:left;">
+  <div class="archive-label" style="text-align:left;">Varros Botschaft</div>
+  <p style="text-align:left;"><strong>Fast habt ihr es geschafft. Ihr seid meinem Vermächtnis schon ganz nah.</strong></p>
+  <p style="text-align:left;">Sucht nun den großen Stein, dessen Name kirchlich klingt, bei den angegebenen Koordinaten.</p>
+  <p style="text-align:left;"><strong>Dort wartet die letzte Prüfung auf euch!</strong></p>
+</div>
+
 
 <a class="primary linkbutton" href="https://www.google.com/maps/search/?api=1&query=49.728381,8.689971" target="_blank" rel="noopener">In Google Maps öffnen</a>
 <button class="secondary" onclick="checkLocationAndOpen('station12',49.728381,8.689971,this)">Am nächsten Ziel angekommen</button>
